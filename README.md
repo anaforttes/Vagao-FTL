@@ -2,7 +2,7 @@
 
 Este projeto automatiza o processo de consulta, download, leitura (OCR) dos **Certificados de Verificação para Vagão-Tanque Ferroviário (Inmetro)** no portal **FTL-Locarga** (`https://locarga-ftl.csn.com.br/locarga`) e o preenchimento completo da planilha **[VTs FTL NEW.xlsx](./VTs%20FTL%20NEW.xlsx)**.
 
----
+
 
 ## 1. Qual era o problema?
 Anteriormente, o processo era totalmente manual:
@@ -14,7 +14,7 @@ Anteriormente, o processo era totalmente manual:
    - Tabela de calibração das **Medidas no Domo** (níveis `4`, `3`, `2`, `1` em `L` e `mm`);
    - Tabela de calibração das **Medidas no Tanque** (níveis `0` a `10` em `L` e `mm`).
 
----
+
 
 ## 2. O que foi feito para automatizar?
 
@@ -45,7 +45,7 @@ Como os certificados do Inmetro são imagens digitalizadas, o script utiliza as 
 ### Etapa 4 — Preenchimento Direto na Planilha (`VTs FTL NEW.xlsx`)
 Um compilador rápido em C# (`pdfs_ftl/build_excel.ps1`) atualiza diretamente a estrutura XML interna da planilha **`VTs FTL NEW.xlsx`**, preservando a formatação, filtros e colunas originais.
 
----
+
 
 ## 3. Estrutura das Colunas na Planilha (`VTs FTL NEW.xlsx`)
 
@@ -60,7 +60,7 @@ Um compilador rápido em C# (`pdfs_ftl/build_excel.ps1`) atualiza diretamente a 
 | **O – V** | `Domo 4 (L)`, `Domo 4 (mm)` até `Domo 1 (L)`, `Domo 1 (mm)` | Extraído da tabela **MEDIDAS NO DOMO** do certificado PDF |
 | **W – AR** | `Tanque 0 (L)`, `Tanque 0 (mm)` até `Tanque 10 (L)`, `Tanque 10 (mm)` | Extraído da tabela **MEDIDAS NO TANQUE** do certificado PDF |
 
----
+
 
 ## 4. Arquivos do Projeto
 
@@ -74,7 +74,7 @@ Um compilador rápido em C# (`pdfs_ftl/build_excel.ps1`) atualiza diretamente a 
   - `build_excel.ps1`: Motor em C# que monta e atualiza as colunas na planilha `VTs FTL NEW.xlsx`;
   - `VTs FTL NEW_backup.xlsx`: Cópia de segurança da planilha original antes do preenchimento.
 
----
+
 
 ## 5. Como atualizar a planilha no futuro?
 
