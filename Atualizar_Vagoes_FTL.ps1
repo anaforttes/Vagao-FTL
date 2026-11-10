@@ -6,7 +6,15 @@ $apiJsonPath = Join-Path $PSScriptRoot "pdfs_ftl\vagoes_api.json"
 $pdfsDir = Join-Path $PSScriptRoot "pdfs_ftl"
 if (-not (Test-Path $pdfsDir)) { New-Item -ItemType Directory -Path $pdfsDir | Out-Null }
 
-curl.exe --ssl-no-revoke -s -u "SANTOSBR:SANTOS53" "https://locarga-ftl.csn.com.br/locarga/api/vagao/todos?pag=0&pgsize=2000&ord=&dir=" -o $apiJsonPath
+$user = $env:LOCARGA_USER
+$pass = $env:LOCARGA_PASS
+if (-not $user) { $user = Read-Host "Digite o usuario do Locarga FTL" }
+if (-not $pass) {
+    $sec = Read-Host "Digite a senha do Locarga FTL" -AsSecureString
+    $pass = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($sec))
+}
+
+curl.exe --ssl-no-revoke -s -u "${user}:${pass}" "https://locarga-ftl.csn.com.br/locarga/api/vagao/todos?pag=0&pgsize=2000&ord=&dir=" -o $apiJsonPath
 $json = Get-Content -Raw $apiJsonPath | ConvertFrom-Json
 Write-Host "      -> $($json.content.Count) vagoes retornados pela API." -ForegroundColor Green
 
@@ -91,7 +99,7 @@ if ($curlLines.Count -gt 0) {
     $curlCfg = Join-Path $pdfsDir "curl_urls.txt"
     $curlLines | Set-Content -Encoding ASCII $curlCfg
     Write-Host "      -> Baixando $($curlLines.Count / 2) novos certificados em PDF..." -ForegroundColor Yellow
-    curl.exe --ssl-no-revoke --parallel --parallel-max 15 -s -L -u "SANTOSBR:SANTOS53" -K $curlCfg
+    curl.exe --ssl-no-revoke --parallel --parallel-max 15 -s -L -u "${user}:${pass}" -K $curlCfg
 } else {
     Write-Host "      -> Todos os $($manifest.Count) PDFs ja estao baixados na pasta 'pdfs_ftl'." -ForegroundColor Green
 }

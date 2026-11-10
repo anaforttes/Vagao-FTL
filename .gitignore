@@ -1,0 +1,5 @@
+# Ignorar todos os arquivos com dados sensiveis (planilhas, PDFs, JSONs e scripts internos)
+*
+!README.md
+!.gitignore
+
